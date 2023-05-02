@@ -77,3 +77,10 @@ df_2020_sample.drop('Total', axis=1, inplace=True)
 # plotting horizontal bar plot
 df_2020_sample[::-1].plot(kind='barh', stacked=True, colormap='RdYlBu')
 plt.show()
+
+# plot 5
+
+# plotting pie charts
+df_2020_sample[:5].T.plot(kind='pie', subplots=True, autopct='%1.0f%%',
+                          legend=False, colormap='RdYlBu')
+plt.show()
