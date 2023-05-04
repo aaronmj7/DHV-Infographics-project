@@ -119,11 +119,11 @@ ax4.set_xlim(0, 7750)
 ax5 = fig.add_subplot(gs[:, 2])
 ax5.axis('off')
 
-txt = 'The source of electricity that powers\nour devices and vehicles is \
-important\nto consider as we move towards more\neco-friendly options.According\
- to the\narea chart, coal,gas, and oil have been\nthe main sources of \
-electricity production\nfor the past 20 years, accounting more\nthan 60%\
-The pie chart shows\nthat coal and gas were the most used\n\
+txt = 'Brief Description:\nThe source of electricity that powers\nour devices \
+and vehicles is important\nto consider as we move towards more\neco-friendly \
+options.According to the\narea chart, coal,gas, and oil have been\nthe main \
+sources of electricity production\nfor the past 20 years, accounting more\n\
+than 60%.The pie chart shows\nthat coal and gas were the most used\n\
 sources in 2020, while renewable\nsources contributed very little. The line\n\
 plot displays the time trend of each\nsource over two decades, with coal\n\
 decreasing but still dominating.\nRenewable sources show some growth\nand \
@@ -134,14 +134,13 @@ production to reduce the environmental\nimpact of electricity generation,\n\
 especially as we increasingly rely\non electronic devices and eco-friendly\n\
 vehicles.'
 props = dict(boxstyle='round', facecolor='wheat')
-ax5.text(0, 0.08, txt, fontsize=9, bbox=props)
+ax5.text(0, 0.01, txt, fontsize=9, bbox=props)
 
 # title
 fig.suptitle('Source of Electricity', fontsize=25, color='white')
+namenid = 'Name: Aaron Modiyil Joseph\nStudent ID: 22018497'
+fig.text(0.75, 0.85, namenid, fontsize=9, bbox=props)
 
-# blank subplot fior legend
-ax6 = fig.add_subplot(gs[1, 2])
-ax6.axis('off')
 # customising legend
 handles, labels = ax1.get_legend_handles_labels()
 legend = fig.legend(handles, labels, loc='upper center', title='Source',
@@ -149,6 +148,9 @@ legend = fig.legend(handles, labels, loc='upper center', title='Source',
                     framealpha=0.3, bbox_to_anchor=(-0.112, -0.12, 1, 1),
                     labelcolor='linecolor')
 plt.setp(legend.get_title(), color='.85')
+
+# saving figure
+fig.savefig('22018497.png', dpi=300)
 
 # show the plot
 plt.show()
