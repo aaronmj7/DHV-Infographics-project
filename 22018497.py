@@ -28,13 +28,19 @@ df = df[[df.columns[i] for i in order]]
 
 
 # plotting with GridSpec
-fig = plt.figure()
-gs = plt.GridSpec(2, 3, wspace=0.4, hspace=0.3)
+fig = plt.figure(dpi=300, facecolor='#000038', layout='constrained')
+fig.set_size_inches(5, 12)
 
-# seting seaborn theme
-sns.set_theme()
+gs = plt.GridSpec(2, 2, figure=fig, width_ratios=[1, 1],
+                  height_ratios=[7, 5])
 
-# common kwargs
+# seting theme
+rc = {'axes.facecolor': '#1221a6', 'text.color': 'black', 'axes.labelcolor':
+      'white', 'xtick.color': 'white', 'ytick.color': 'white',
+      'grid.color': '.7'}
+sns.set_theme(rc=rc)
+
+# some kwargs
 kwargs = {'cmap': 'RdYlGn', 'legend': False}
 
 
@@ -50,20 +56,36 @@ df_wrld.set_index("Year", inplace=True)
 df_wrld_percent = df_wrld.apply(lambda x: round((x/sum(x)*100), 2), axis=1)
 
 # plotting area plot
-ax00 = fig.add_subplot(gs[0, 0])
-df_wrld_percent.plot(kind='area', ax=ax00, **kwargs)
+ax1 = fig.add_subplot(gs[0, 0])
+df_wrld_percent.loc[2000:].plot.area(ax=ax1, style='.-',
+                                     figsize=(7, 7), alpha=0.95, **kwargs)
+ax1.set_ylabel('Electicity Produced (%)')
+ax1.set_xticks(range(2000, 2021, 2))
+ax1.set_yticks(range(0, 101, 10))
+ax1.set_xlim(2000, 2021)
 
 # plot 2
 
 # plotting pie chart
-ax01 = fig.add_subplot(gs[0, 1])
-df_wrld.loc[2020].plot(kind='pie', autopct='%1.0f%%', ax=ax01, **kwargs)
+ax2 = fig.add_subplot(gs[0, 1])
+explode = [0.2 for i in range(len(df_wrld.loc[2020]))]
+df_wrld.loc[2020].plot.pie(autopct='%1.0f%%', shadow=True, labels=None,
+                           pctdistance=0.7, ax=ax2, explode=explode,
+                           textprops={'fontsize': 8}, figsize=(7, 7), **kwargs)
+my_circle = plt.Circle((0, 0), 0.5, color='#000038')
+p = plt.gcf()
+p.gca().add_artist(my_circle)
+ax2.set_ylabel(None)
 
 # plot 3
 
 # plotting line plot
-ax02 = fig.add_subplot(gs[0, 2])
-df_wrld_percent.loc[1990:].plot(ax=ax02, **kwargs)
+ax3 = fig.add_subplot(gs[1, 0])
+df_wrld_percent.loc[1990:].plot(ax=ax3, style='>-.', markersize=4,
+                                figsize=(8, 5), **kwargs)
+ax3.set_ylabel('Electicity Produced (%)')
+ax3.set_xticks(range(2000, 2021, 2))
+ax3.set_xlim(2000, 2020)
 
 # plot 4
 
@@ -84,15 +106,17 @@ df_2020_sample.drop(['World', 'EU27+1', 'EU-27'], inplace=True)
 df_2020_sample.drop('Total', axis=1, inplace=True)
 
 # plotting horizontal bar plot
-ax10 = fig.add_subplot(gs[1, 0])
-df_2020_sample[::-1].plot(kind='barh', stacked=True, ax=ax10, **kwargs)
+ax4 = fig.add_subplot(gs[1, 1])
+df_2020_sample[::-1].plot.barh(stacked=True, figsize=(8, 5), ax=ax4, **kwargs)
+ax4.set_ylabel('Countries')
+ax4.set_xticks(range(0, 8000, 1000))
+ax4.set_xlim(0, 7750)
 
-# plot 5
-'''
-# plotting pie charts
-ax11 = fig.add_subplot(gs[1, 1])
-df_2020_sample[:4].T.plot(kind='pie', subplots=True, layout=(2, 2), ax=ax11,
-                          **kwargs)
-'''
+
+# customising legend
+handles, labels = ax1.get_legend_handles_labels()
+# fig.legend(handles, labels, loc='lower left', title='Source', fancybox=True,
+           #shadow=True, borderpad=1, fontsize=10)
+
 # show the plot
 plt.show()
